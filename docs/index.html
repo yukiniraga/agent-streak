@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Streak — Daily check-ins for Agent ID holders</title>
+<meta name="description" content="Agent Streak is a free daily check-in and streak protocol exclusively for Agent ID holders, with soulbound milestone badges.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="demoBanner" class="demo-banner" hidden>
+  Demo mode — no contract is deployed at the configured address yet, so this page is simulating the protocol locally in your browser.
+</div>
+
+<header class="site-header">
+  <div class="brand">
+    <svg class="brand-flame" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22c-4.1-3.2-5.6-6.6-4.1-10C8.7 9.9 10 8.4 12 4c2 4.4 3.3 5.9 4.1 8 1.5 3.4 0 6.8-4.1 10z" fill="currentColor"/></svg>
+    <span class="brand-name">Agent Streak</span>
+  </div>
+  <div class="header-actions">
+    <span id="networkChip" class="chip" hidden>BNB Chain</span>
+    <span id="accountChip" class="chip chip-accent" hidden></span>
+    <button id="connectBtn" class="btn btn-primary">Connect wallet</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Show up every day.<br><span class="grad">Keep the streak alive.</span></h1>
+    <p class="hero-sub">
+      Agent Streak is a daily check-in protocol built exclusively for Agent ID holders.
+      Your Agent ID is your identity: it unlocks check-ins, streaks, points and soulbound
+      milestone badges — all recorded on BNB Chain.
+    </p>
+    <div id="statusLine" class="status-line">Connect your wallet to see your streak.</div>
+  </section>
+
+  <section id="gatePanel" class="panel gate" hidden>
+    <h2>Agent ID required</h2>
+    <p>
+      This wallet does not hold an Agent ID yet, so check-ins are locked.
+      An Agent ID is the on-chain name of an Agentic Wallet (a <em>name</em>.ai identity).
+      It can only be claimed inside the Binance App:
+      <strong>Wallet &rarr; homepage banner &rarr; Agent ID</strong>.
+    </p>
+    <p class="muted">Claim yours there, then reconnect here — your streak can start the same day.</p>
+  </section>
+
+  <section id="appPanel" hidden>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22c-4.1-3.2-5.6-6.6-4.1-10C8.7 9.9 10 8.4 12 4c2 4.4 3.3 5.9 4.1 8 1.5 3.4 0 6.8-4.1 10z" fill="currentColor"/></svg>
+          Current streak
+        </div>
+        <div class="stat-value"><span id="statStreak">0</span><span class="stat-unit">days</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Points</div>
+        <div class="stat-value" id="statPoints">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total check-ins</div>
+        <div class="stat-value" id="statTotal">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Best streak</div>
+        <div class="stat-value"><span id="statBest">0</span><span class="stat-unit">days</span></div>
+      </div>
+    </div>
+
+    <div class="panel checkin-panel">
+      <button id="checkInBtn" class="btn btn-big">Check in for today</button>
+      <div id="checkInNote" class="checkin-note"></div>
+      <div id="countdown" class="countdown" hidden>Next check-in in <span id="countdownTime">--:--:--</span></div>
+    </div>
+
+    <section class="panel">
+      <h2>Milestone badges</h2>
+      <p class="muted">Soulbound badges — minted to your wallet, non-transferable forever. Earned from your <strong>best</strong> streak, so a missed day never takes a badge away.</p>
+      <div id="badgeGrid" class="badge-grid"></div>
+    </section>
+  </section>
+
+  <section class="panel" id="leaderboardPanel">
+    <h2>Leaderboard</h2>
+    <p class="muted">Every Agent ID holder who has ever checked in, ranked by points.</p>
+    <div id="leaderboardEmpty" class="muted">Connect a wallet to load the leaderboard.</div>
+    <table id="leaderboardTable" class="board" hidden>
+      <thead>
+        <tr><th>#</th><th>Holder</th><th>Best streak</th><th>Current streak</th><th>Points</th></tr>
+      </thead>
+      <tbody id="leaderboardBody"></tbody>
+    </table>
+  </section>
+
+  <section class="panel how">
+    <h2>How it works</h2>
+    <ol>
+      <li><strong>Hold an Agent ID.</strong> The protocol checks <code>balanceOf(your address)</code> on the Agent ID contract — the official identity check. No Agent ID, no check-in.</li>
+      <li><strong>Check in once a day (UTC).</strong> Consecutive days grow your streak; a missed day restarts it at 1.</li>
+      <li><strong>Earn points.</strong> Each check-in awards 10 points plus a streak bonus of up to +20.</li>
+      <li><strong>Claim milestone badges</strong> at best streaks of 3, 7, 14 and 30 days. Badges are soulbound ERC-721 tokens with on-chain generated artwork.</li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  <p>Agent Streak is a free reputation game for Agent ID holders, running on BNB Chain. Points and badges are non-transferable records with no monetary value. Every transaction is signed by your own wallet — this site never asks for a seed phrase, private key or pairing code.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
